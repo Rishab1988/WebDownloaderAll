@@ -109,12 +109,25 @@ namespace WebDownloaderAll.FromFile
                     Directory.CreateDirectory(DirPath(FileType.Music) + "Album");
             }
 
-            foreach (var fileInput in fileInputCollection)
+            var count = fileInputCollection.Count();
+            for (int i = 0; i <count; i++)  //foreach (var fileInput in fileInputCollection)
             {
-                Console.WriteLine();
-                Console.WriteLine(Resource.openingFileWithItems, fileInput.File, fileInput.FileInputData.Count());
-                foreach (var fileInputData in fileInput.FileInputData)
+                var fileInput = fileInputCollection.ElementAt(i);
+
+                //Console.WriteLine();
+                //Console.WriteLine(Resource.openingFileWithItems, fileInput.File, fileInput.FileInputData.Count());
+               
+                var itemCount = fileInput.FileInputData.Count();
+
+                Console.Clear();
+                Console.Write(Resource.readingUrlFromwithItemsAt, i + 1, count, itemCount);
+                Console.Write("{0} %", 0);
+                Console.Write(new string('\b', 1 + 2));
+                for (int k = 0;  k < itemCount; k++) //foreach (var fileInputData in fileInput.FileInputData)
                 {
+
+                    var fileInputData = fileInput.FileInputData.ElementAt(k);
+
                     fileInputData.Name = fileInputData.Url.GetNameFromUrl();
                     if (fileInput.File.IndexOf("Album") > 0)
                     {
@@ -125,24 +138,25 @@ namespace WebDownloaderAll.FromFile
                     {
                         if (File.Exists(DirPath(FileType.Music) + fileInputData.Name))
                         {
-                            Console.WriteLine("\t" + Resource.downloadComplete1, fileInputData.Name);
+                            //Console.WriteLine("\t" + Resource.downloadComplete1, fileInputData.Name);
                             continue;
                         }
-                        //    File.AppendAllText(@"D:\gns.txt", fileInputData.Url + "\r\n");
-
+                        
                         try
                         {
                             client.DownloadFile(fileInputData.Url, DirPath(FileType.Music) + fileInputData.Name);
-                            Console.WriteLine("\t" + Resource.downloadComplete1, fileInputData.Name);
-                            File.AppendAllText(@"D:\WDAError.txt", fileInputData.Url + "\r\n");
+                            //Console.WriteLine("\t" + Resource.downloadComplete1, fileInputData.Name);
+                            
                         }
                         catch
                         {
-                            Console.WriteLine("\t" + Resource.error, fileInputData.Name);
+                            //Console.WriteLine("\t" + Resource.error, fileInputData.Name);
+                            File.AppendAllText(@"D:\WDAError.txt", fileInputData.Url + "\r\n");
                         }
                     }
-
-
+                    var percentage = ((k + 1) * 100) / itemCount;
+                    Console.Write("{0} %", percentage);
+                    Console.Write(new string('\b', percentage.ToString().Length + 2));
                 }
             }
 

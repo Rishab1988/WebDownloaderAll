@@ -142,9 +142,16 @@ namespace WebDownloaderAll.Common
         }
 
         private static bool UserSelect(IEnumerable<DownloadOption> listOptions) {
-            Console.WriteLine(Resource.userChoice);
+           
             int choice;
-            if (!int.TryParse(Console.ReadLine(), out choice)) throw new DownloadOptionException();
+            while(true)
+            {
+                Console.WriteLine(Resource.userChoice);
+                if (int.TryParse(Console.ReadLine(), out choice))
+                    break;
+            }
+
+           
 
             var webdownload = listOptions.First(x => x.Value == choice);
             Console.WriteLine(Resource.workingWaitKey);

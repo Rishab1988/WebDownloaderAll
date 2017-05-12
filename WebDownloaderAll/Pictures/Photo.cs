@@ -195,7 +195,6 @@ namespace WebDownloaderAll.Pictures
                 //Console.WriteLine(Resource.downloadComplete2, photoDownload.Url, photoDownload.Name);
                 var percentage = ((i + 1) * 100) / count;
                 Console.Write("{0} %", percentage);
-
                 Console.Write(new string('\b', percentage.ToString().Length + 2));
             }
 

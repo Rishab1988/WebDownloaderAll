@@ -295,6 +295,15 @@ namespace WebDownloaderAll.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reading url {0} of {1} with {2} items at .
+        /// </summary>
+        internal static string readingUrlFromwithItemsAt {
+            get {
+                return ResourceManager.GetString("readingUrlFromwithItemsAt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RT In Vision.
         /// </summary>
         internal static string rtvision {
