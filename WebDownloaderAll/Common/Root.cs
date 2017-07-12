@@ -151,8 +151,6 @@ namespace WebDownloaderAll.Common
                     break;
             }
 
-           
-
             var webdownload = listOptions.First(x => x.Value == choice);
             Console.WriteLine(Resource.workingWaitKey);
             webdownload.Download.DoStackCall();

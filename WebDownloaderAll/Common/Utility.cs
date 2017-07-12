@@ -33,6 +33,12 @@ namespace WebDownloaderAll.Common
             return newAlbum;
         }
 
+        public static string RemoveInvalidSputnikPhotoChars(this string photoPath)
+        {
+            photoPath = photoPath.Replace(" - Sputnik International", "");
+            return photoPath;
+        }
+
         public static string RemoveInvalidDownloadmingSongsChars(this string album) {
             album = album.Replace("&amp;", "&");
             return album;

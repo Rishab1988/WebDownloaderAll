@@ -17,9 +17,9 @@ namespace WebDownloaderAll.Pictures
             var web = new HtmlWeb();
             var page = web.Load(photoInput.Url).DocumentNode;
 
-            photoInput.Path = page.QuerySelector("title").InnerText.Trim().RemoveInvalidPathChars();
+            photoInput.Path = page.QuerySelector("title").InnerText.Trim().RemoveInvalidPathChars().RemoveInvalidSputnikPhotoChars();
 
-            if (photoInput.Path == "This Week in Pictures")
+            if (photoInput.Path.Contains("This Week in Pictures"))
             {
                 photoInput.Path = photoInput.Path + "\\" + DateTime.ParseExact(photoInput.Url.Substring(30, 8), "yyyyMMdd", CultureInfo.InvariantCulture).ToString("MMMM dd yyyy");
             }
