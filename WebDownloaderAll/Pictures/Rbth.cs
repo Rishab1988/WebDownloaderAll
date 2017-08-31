@@ -39,7 +39,5 @@ namespace WebDownloaderAll.Pictures
 
             return listPhotoDownload;
         }
-
-
     }
 }

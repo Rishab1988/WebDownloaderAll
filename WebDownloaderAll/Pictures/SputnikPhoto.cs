@@ -6,13 +6,30 @@ using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
 using WebDownloaderAll.Common;
 using System.Globalization;
+using System.IO.Compression;
 
 namespace WebDownloaderAll.Pictures
 {
 
     public sealed class SputnikPhoto : WebPhotoDownload
     {
-        protected override List<PhotoDownload> DoImageDownload(PhotoInput photoInput) {
+        protected override string PhotoPath
+        {
+            get { return @"D:\Rishab\Do Copy\Russia\"; }
+        }
+
+        protected override string AutoUrl
+        {
+            get
+            {
+                var web = new HtmlWeb();
+                var newUrl = web.Load("https://sputniknews.com/photo/").DocumentNode.QuerySelector("a.b-stories__img").GetAttributeValue("href", "");
+                return  "https://sputniknews.com" + newUrl;
+            }
+        }
+
+        protected override List<PhotoDownload> DoImageDownload(PhotoInput photoInput)
+        {
             //Console.WriteLine(Resource.readingUrl);
             var web = new HtmlWeb();
             var page = web.Load(photoInput.Url).DocumentNode;
@@ -35,7 +52,8 @@ namespace WebDownloaderAll.Pictures
 
             var listPhotoDownload = new List<PhotoDownload>();
 
-            foreach (var imageFrame in gallery) {
+            foreach (var imageFrame in gallery)
+            {
                 var photoDownload = new PhotoDownload
                 {
                     Url = imageFrame.GetAttributeValue("data-src", ""),

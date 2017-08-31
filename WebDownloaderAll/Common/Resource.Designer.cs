@@ -232,6 +232,15 @@ namespace WebDownloaderAll.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No supported parsable auto config is provided.
+        /// </summary>
+        internal static string NoAutoConfigData {
+            get {
+                return ResourceManager.GetString("NoAutoConfigData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Opening Album: {0}.
         /// </summary>
         internal static string openingAlbumNameParam {

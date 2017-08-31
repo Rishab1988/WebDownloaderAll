@@ -11,30 +11,37 @@ namespace WebDownloaderAll.Music.Writer
 {
     public class Downloadming : IWebDownload
     {
-        private static string DirPath {
+        private static string DirPath
+        {
             get { return @"D:\Rishab\Task2\downloadming"; }
         }
 
-        private static string Url {
+        private static string Url
+        {
             get { return "http://downloadming.tv/bollywood-mp3-"; }
         }
 
 
-        private static IEnumerable<string> NotRecommenedUrlStrings {
-            get {
+        private static IEnumerable<string> NotRecommenedUrlStrings
+        {
+            get
+            {
                 var notRecommenedUrlStrings = new[] { "(320%20Kbps)", ".zip", "mix" };//, "temp"
                 return notRecommenedUrlStrings;
             }
         }
 
         // ReSharper disable once UnusedMember.Local
-        private static IEnumerable<string> UrlStrings {
-            get {
+        private static IEnumerable<string> UrlStrings
+        {
+            get
+            {
                 var urlStrings = new string[27];
                 urlStrings[0] = "0-9";
 
                 var k = 1;
-                for (var i = 97; i <= 122; i++, k++) {
+                for (var i = 97; i <= 122; i++, k++)
+                {
                     urlStrings[k] = ((char)i).ToString();
                 }
 
@@ -42,14 +49,17 @@ namespace WebDownloaderAll.Music.Writer
             }
         }
 
-        private static IEnumerable<string> LoadedFiles(string urlString) {
+        private static IEnumerable<string> LoadedFiles(string urlString)
+        {
 
             List<string> loadedFiles;
-            if (urlString == "0-9") {
+            if (urlString == "0-9")
+            {
                 loadedFiles = Directory.GetFiles(DirPath, "*.txt", SearchOption.TopDirectoryOnly)
                     .ToList();
             }
-            else {
+            else
+            {
                 loadedFiles = Directory.GetFiles(DirPath, urlString + "*.txt", SearchOption.TopDirectoryOnly).Select(Path.GetFileNameWithoutExtension)
                     .ToList();
             }
@@ -64,14 +74,17 @@ namespace WebDownloaderAll.Music.Writer
         }
 
 
-        public void DoStackCall() {
+        public void DoStackCall()
+        {
             DoAlbumSearchCall();
         }
 
-        private static void DoAlbumSearchCall() {
+        private static void DoAlbumSearchCall()
+        {
             Console.Clear();
             Console.WriteLine(Resource.longProcess);
-            foreach (var urlString in UrlStrings) {
+            foreach (var urlString in UrlStrings)
+            {
                 var url = urlString;
                 Task.Run(() => DoAlbumSearch(Url, url));
                 //DoAlbumSearch(Url, url);
@@ -79,11 +92,13 @@ namespace WebDownloaderAll.Music.Writer
             //DoAlbumSearch(Url,"q");
         }
 
-        private static void DoAlbumSearch(string url, string urlString) {
+        private static void DoAlbumSearch(string url, string urlString)
+        {
             url = url + urlString;
             //Console.WriteLine(Resource.readingUrl + ": " + urlString);
             var web = new HtmlWeb();
-            try {
+            try
+            {
                 var listMusicInfo = web.Load(url)
                 .DocumentNode.QuerySelectorAll("div.azindex ul a")
                 .Select(album => new MusicInfo()
@@ -98,26 +113,18 @@ namespace WebDownloaderAll.Music.Writer
                         .Select(x => x.RemoveInvalidDownloadmingSongsChars())
                         .ToList()
                 }).Where(x => x.SongUrls.Count > 0 && LoadedFiles(urlString).All(y => x.AlbumName != y)).ToList();
-                if (listMusicInfo.Count > 0) { 
+                if (listMusicInfo.Count > 0)
+                {
                     Music.DoWrite(DirPath, listMusicInfo);
-}
+                }
                 Console.WriteLine(Resource.albumTaskComplete, Resource.donereadingUrl, urlString, listMusicInfo.Count);
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 Console.WriteLine(Resource.exceptionFor, urlString);
             }
 
-
-
-
-
         }
-
-
-
-
-
-
 
     }
 }

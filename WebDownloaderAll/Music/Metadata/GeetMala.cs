@@ -144,8 +144,5 @@ namespace WebDownloaderAll.Music.Metadata
                 Console.WriteLine(Resource.ClosingUrl, geetMalaUrl.CurrentFormattedUrl);
         }
 
-
-
-
     }
 }

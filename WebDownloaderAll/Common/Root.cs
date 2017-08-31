@@ -25,7 +25,7 @@ namespace WebDownloaderAll.Common
         }
     }
 
-  
+
 
 
     public class DownloadOptionException : Exception
@@ -34,7 +34,8 @@ namespace WebDownloaderAll.Common
         {
         }
         public DownloadOptionException(string message)
-            : base(message) {
+            : base(message)
+        {
         }
     }
 
@@ -46,17 +47,23 @@ namespace WebDownloaderAll.Common
         {
             Environment.Exit(0);
         }
+
+
+       
     }
 
     public class Root
     {
-        public bool DoStackCall() {
+        public bool DoStackCall()
+        {
+            int? choice = AutoConfigProvider.GetValue(AutoConfigType.Choice).Value;
             var data = PrepareOptions();
             PrintOptions(data);
-            return UserSelect(data);
+            return UserSelect(data, choice);
         }
 
-        private static List<DownloadOption> PrepareOptions() {
+        private static List<DownloadOption> PrepareOptions()
+        {
             var listDownloadOption = new List<DownloadOption>();
 
             var downloadOption = new DownloadOption
@@ -86,7 +93,7 @@ namespace WebDownloaderAll.Common
             downloadOption = new DownloadOption
             {
                 Value = 3,
-                Text =  Resource.downloadming,
+                Text = Resource.downloadming,
                 Download = new Downloadming(),
                 IsLong = true
             };
@@ -134,21 +141,29 @@ namespace WebDownloaderAll.Common
             return listDownloadOption;
         }
 
-        private static void PrintOptions(IEnumerable<DownloadOption> listOptions) {
+        private static void PrintOptions(IEnumerable<DownloadOption> listOptions)
+        {
             Console.WriteLine(Resource.selectOptions);
-            foreach (var option in listOptions) {
+            foreach (var option in listOptions)
+            {
                 Console.WriteLine(option.DisplayText);
             }
         }
 
-        private static bool UserSelect(IEnumerable<DownloadOption> listOptions) {
-           
+        private static bool UserSelect(IEnumerable<DownloadOption> listOptions, int? autoChoice = null)
+        {
             int choice;
-            while(true)
+
+            if (autoChoice.HasValue)
+                choice = autoChoice.Value;
+            else
             {
-                Console.WriteLine(Resource.userChoice);
-                if (int.TryParse(Console.ReadLine(), out choice))
-                    break;
+                while (true)
+                {
+                    Console.WriteLine(Resource.userChoice);
+                    if (int.TryParse(Console.ReadLine(), out choice))
+                        break;
+                }
             }
 
             var webdownload = listOptions.First(x => x.Value == choice);

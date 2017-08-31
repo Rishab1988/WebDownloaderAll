@@ -100,24 +100,47 @@ namespace WebDownloaderAll.Pictures
         }
 
 
-        internal static List<PhotoInput> TakeUserInput()
+        internal static List<PhotoInput> TakeUserInput(string autoUrl = null)
         {
             var photoInputCollection = new List<PhotoInput>();
             Console.WriteLine(Resource.inputUrl);
 
             string url;
 
-            var urlCollection = new List<string>();
+            List<string> urlCollection = null;
 
-            while (((url = Console.ReadLine()) != null) && (url != ""))
+
+            if (String.IsNullOrEmpty(autoUrl))
             {
-                urlCollection.Add(url);
 
-                photoInputCollection.Add(new PhotoInput { Url = url });
+                var config = AutoConfigProvider.GetValue(AutoConfigType.Url);
+                if (config.Value != null)
+                {
+                    urlCollection = config.Value;
+                }
+                else
+                {
+                    urlCollection = new List<string>();
+                    while (((url = Console.ReadLine()) != null) && (url != ""))
+                    {
+                        urlCollection.Add(url);
+                    }
+                }
+            }
+
+            else
+            {
+                urlCollection = new List<string>();
+                urlCollection.Add(autoUrl);
             }
 
             if (urlCollection.Count == 0)
                 throw new PhotoInputException("Invalid url provided");
+
+            foreach (var cUrl in urlCollection)
+            {
+                photoInputCollection.Add(new PhotoInput { Url = cUrl });
+            }
 
             Console.Clear();
             return photoInputCollection;
@@ -174,7 +197,7 @@ namespace WebDownloaderAll.Pictures
             Console.Write(Resource.withItemsAt, count);
             var client = new WebClient();
             StreamWriter streamWriter;
-            for(int i = 0; i <count ; i++ )// (var photoDownload in listPhotoDownloads)
+            for (int i = 0; i < count; i++)// (var photoDownload in listPhotoDownloads)
             {
                 var photoDownload = listPhotoDownloads[i];
                 client.DownloadFile(photoDownload.Url, photoDownload.Path);

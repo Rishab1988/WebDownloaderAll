@@ -39,5 +39,7 @@ namespace WebDownloaderAll.Music.Metadata
         protected abstract void DoSearchcall(IEnumerable<string> urlStrings);
 
         protected abstract void DoSearch();
+
+
     }
 }
