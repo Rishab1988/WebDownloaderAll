@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using JetBrains.Annotations;
 
 namespace WebDownloaderAll.Music.Metadata
 {
@@ -70,7 +69,7 @@ namespace WebDownloaderAll.Music.Metadata
 
         public string SongDirPath
         {
-            get { return DirPath + AlbumName; }
+            get { return string.Format("{0}{1}", DirPath, AlbumName); }
         }
 
 

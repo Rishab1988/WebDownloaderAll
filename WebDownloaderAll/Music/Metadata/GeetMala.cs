@@ -116,7 +116,9 @@ namespace WebDownloaderAll.Music.Metadata
                     var songInfoData = songInfoComplexData.QuerySelectorAll(GeetMalaUrl.SongInfoSearchQuery).ToList();
 
 
+#pragma warning disable 618
                     var songInfo = new SongInfo(DirPath, albuminfo.AlbumName)
+#pragma warning restore 618
                     {
                         Artist = new Artist { Value = songInfoData.ElementAt(0).InnerText },
                         Composer = new Composer { Value = songInfoData.ElementAt(1).InnerText },

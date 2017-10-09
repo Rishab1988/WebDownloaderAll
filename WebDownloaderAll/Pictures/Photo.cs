@@ -80,7 +80,7 @@ namespace WebDownloaderAll.Pictures
                     writer.WriteLine("Desc: ");
                     writer.WriteLine(photoInput.Desc);
                     var picasaFile = photoInput.FullPath + "\\.picasa.ini";
-                    File.WriteAllText(picasaFile, "[Picasa]\r\ndescription=" + photoInput.Desc);
+                    File.WriteAllText(picasaFile, Resource.PicasaDescription + photoInput.Desc);
                     File.SetAttributes(picasaFile, FileAttributes.System);
                     File.SetAttributes(picasaFile, FileAttributes.Hidden);
                 }
@@ -102,12 +102,9 @@ namespace WebDownloaderAll.Pictures
 
         internal static List<PhotoInput> TakeUserInput(string autoUrl = null)
         {
-            var photoInputCollection = new List<PhotoInput>();
             Console.WriteLine(Resource.inputUrl);
 
-            string url;
-
-            List<string> urlCollection = null;
+            List<string> urlCollection;
 
 
             if (String.IsNullOrEmpty(autoUrl))
@@ -121,6 +118,7 @@ namespace WebDownloaderAll.Pictures
                 else
                 {
                     urlCollection = new List<string>();
+                    string url;
                     while (((url = Console.ReadLine()) != null) && (url != ""))
                     {
                         urlCollection.Add(url);
@@ -130,17 +128,13 @@ namespace WebDownloaderAll.Pictures
 
             else
             {
-                urlCollection = new List<string>();
-                urlCollection.Add(autoUrl);
+                urlCollection = new List<string> {autoUrl};
             }
 
             if (urlCollection.Count == 0)
                 throw new PhotoInputException("Invalid url provided");
 
-            foreach (var cUrl in urlCollection)
-            {
-                photoInputCollection.Add(new PhotoInput { Url = cUrl });
-            }
+            var photoInputCollection = urlCollection.Select(cUrl => new PhotoInput {Url = cUrl}).ToList();
 
             Console.Clear();
             return photoInputCollection;
@@ -197,7 +191,7 @@ namespace WebDownloaderAll.Pictures
             Console.Write(Resource.withItemsAt, count);
             var client = new WebClient();
             StreamWriter streamWriter;
-            for (int i = 0; i < count; i++)// (var photoDownload in listPhotoDownloads)
+            for (var i = 0; i < count; i++)// (var photoDownload in listPhotoDownloads)
             {
                 var photoDownload = listPhotoDownloads[i];
                 client.DownloadFile(photoDownload.Url, photoDownload.Path);
@@ -217,7 +211,7 @@ namespace WebDownloaderAll.Pictures
                 photoDownload.Status = true;
                 //Console.WriteLine(Resource.downloadComplete2, photoDownload.Url, photoDownload.Name);
                 var percentage = ((i + 1) * 100) / count;
-                Console.Write("{0} %", percentage);
+                Console.Write(Resource.DispPercentage, percentage);
                 Console.Write(new string('\b', percentage.ToString().Length + 2));
             }
 

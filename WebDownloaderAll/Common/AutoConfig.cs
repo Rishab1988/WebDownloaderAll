@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace WebDownloaderAll.Common
 {
@@ -16,7 +15,7 @@ namespace WebDownloaderAll.Common
     public class AutoConfigValue
     {
         public dynamic Value { get; set; }
-        public Type DType { get; set; }
+        public Type DType { [UsedImplicitly] get; set; }
     }
 
     public class AutoConfigData
@@ -35,17 +34,16 @@ namespace WebDownloaderAll.Common
         {
             set
             {
-                List<AutoConfigData> listAutoConfigData = new List<AutoConfigData>();
+                var listAutoConfigData = new List<AutoConfigData>();
                 foreach (var item in value)
                 {
-                    if (item.IndexOf(':') > 0)
-                    {
-                        listAutoConfigData.Add(new AutoConfigData { Key = item.Substring(1, item.IndexOf(':') - 1), Value = item.Substring(item.IndexOf(':') + 1).Split(',').ToList() });
-                    }
-                    else
-                    {
-                        listAutoConfigData.Add(new AutoConfigData { Key = item.Substring(1, 1) });
-                    }
+                    listAutoConfigData.Add(item.IndexOf(':') > 0
+                        ? new AutoConfigData
+                        {
+                            Key = item.Substring(1, item.IndexOf(':') - 1),
+                            Value = item.Substring(item.IndexOf(':') + 1).Split(',').ToList()
+                        }
+                        : new AutoConfigData {Key = item.Substring(1, 1)});
                 }
                 AutoConfigDataSet = listAutoConfigData;
 
@@ -60,26 +58,32 @@ namespace WebDownloaderAll.Common
             {
                 case AutoConfigType.Choice:
                     int? value = null;
+
                     try
                     {
-                        value = Convert.ToInt32(AutoConfigDataSet.Where(x => x.Type == autoConfigType).FirstOrDefault().Value.FirstOrDefault());
+                        // ReSharper disable once PossibleNullReferenceException
+                        value = Convert.ToInt32(AutoConfigDataSet.FirstOrDefault(x => x.Type == autoConfigType)
+                            .Value.FirstOrDefault());
                     }
-                    catch { }
-                    return new AutoConfigValue { Value = value, DType = typeof(System.Int32) };
+                    catch
+                    {
+                        // ignored
+                    }
+                    return new AutoConfigValue { Value = value, DType = typeof(int) };
 
                 case AutoConfigType.Url:
                     IEnumerable<string> urls = null;
                     try
                     {
-                        urls = AutoConfigDataSet.Where(x => x.Type == autoConfigType).First().Value.ToList();
+                        urls = AutoConfigDataSet.First(x => x.Type == autoConfigType).Value.ToList();
                     }
-                    catch { }
+                    catch
+                    {
+                        // ignored
+                    }
                     return new AutoConfigValue { Value = urls, DType = typeof(List<string>) };
                 case AutoConfigType.Auto:
-                    if (AutoConfigDataSet.Where(x => x.Type == autoConfigType).Count() > 0)
-                        return new AutoConfigValue { Value = true, DType = typeof(bool) };
-                    else
-                        return new AutoConfigValue { Value = false, DType = typeof(bool) };
+                    return AutoConfigDataSet.Any(x => x.Type == autoConfigType) ? new AutoConfigValue { Value = true, DType = typeof(bool) } : new AutoConfigValue { Value = false, DType = typeof(bool) };
                 default:
                     throw new InvalidOperationException(Resource.NoAutoConfigData);
 
@@ -104,8 +108,6 @@ namespace WebDownloaderAll.Common
                         break;
                     case "A":
                         autoConfigData.Type = AutoConfigType.Auto;
-                        break;
-                    default:
                         break;
                 }
             }

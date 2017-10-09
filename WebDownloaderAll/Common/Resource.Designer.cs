@@ -88,6 +88,24 @@ namespace WebDownloaderAll.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Completed: .
+        /// </summary>
+        internal static string Completed {
+            get {
+                return ResourceManager.GetString("Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} %.
+        /// </summary>
+        internal static string DispPercentage {
+            get {
+                return ResourceManager.GetString("DispPercentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reading url complete.
         /// </summary>
         internal static string donereadingUrl {
@@ -273,6 +291,16 @@ namespace WebDownloaderAll.Common {
         internal static string openingUrl {
             get {
                 return ResourceManager.GetString("openingUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [Picasa]
+        ///description=.
+        /// </summary>
+        internal static string PicasaDescription {
+            get {
+                return ResourceManager.GetString("PicasaDescription", resourceCulture);
             }
         }
         

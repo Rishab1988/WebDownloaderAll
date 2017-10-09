@@ -6,7 +6,6 @@ using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
 using WebDownloaderAll.Common;
 using System.Globalization;
-using System.IO.Compression;
 
 namespace WebDownloaderAll.Pictures
 {

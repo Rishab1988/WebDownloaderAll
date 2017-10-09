@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebDownloaderAll.Common;
 
 namespace WebDownloaderAll.Music.Metadata.Bogie
@@ -26,7 +24,7 @@ namespace WebDownloaderAll.Music.Metadata.Bogie
         {
             get
             {
-                return new string[] { RootUrl + "category/movies/", RootUrl + "category/albums/" };
+                return new[] { RootUrl + "category/movies/", RootUrl + "category/albums/" };
             }
         }
 
@@ -140,6 +138,7 @@ namespace WebDownloaderAll.Music.Metadata.Bogie
                 throw new Exception();
         }
 
+        // ReSharper disable once UnusedMember.Local
         private static List<string> LoadedFiles(string dirPath)
         {
             if (!Directory.Exists(dirPath))
@@ -229,7 +228,7 @@ namespace WebDownloaderAll.Music.Metadata.Bogie
             {
                 var pDirPath = DirPath(category) + album.AlbumName;
 
-                if (!Directory.Exists(pDirPath) || album.AlbumName.IndexOf("(2017)") > 0)
+                if (!Directory.Exists(pDirPath) || album.AlbumName.IndexOf("(2017)", StringComparison.Ordinal) > 0)
                 {
 
                     var albumInfo = new AlbumInfo { AlbumName = album.AlbumName, SongInfo = new List<SongInfo>() };
@@ -255,12 +254,14 @@ namespace WebDownloaderAll.Music.Metadata.Bogie
                     {
                         WriteMetadata(albumInfo, category);
                     }
-                    catch { 
+                    catch
+                    {
+                        // ignored
                     }
                 }
             }
 
-            Console.WriteLine("Completed: " + indexedUrl);
+            Console.WriteLine(Resource.Completed + indexedUrl);
         }
 
         private void WriteMetadata(AlbumInfo albumInfo, int category)

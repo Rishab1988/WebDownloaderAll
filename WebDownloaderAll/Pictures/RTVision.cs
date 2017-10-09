@@ -1,18 +1,13 @@
 ﻿using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using WebDownloaderAll.Common;
 
 namespace WebDownloaderAll.Pictures
 {
-    public class RTVision : WebPhotoDownload
+    public class RtVision : WebPhotoDownload
     {
         protected override string PhotoPath
         {

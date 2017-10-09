@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO.Compression;
 using WebDownloaderAll.Common;
 
 namespace WebDownloaderAll.Pictures
@@ -11,16 +10,8 @@ namespace WebDownloaderAll.Pictures
         public virtual void DoStackCall()
         {
 
-            List<PhotoInput> userInput = null;
-            if (Convert.ToBoolean(AutoConfigProvider.GetValue(AutoConfigType.Auto).Value))
-            {
-                userInput = Photo.TakeUserInput(AutoUrl); ;
-            }
-
-            else
-            {
-                userInput = Photo.TakeUserInput();
-            }
+            List<PhotoInput> userInput;
+            userInput = Convert.ToBoolean(AutoConfigProvider.GetValue(AutoConfigType.Auto).Value) ? Photo.TakeUserInput(AutoUrl) : Photo.TakeUserInput();
             var userInputCount = userInput.Count;
             for (int i = 0; i < userInputCount; i++)
             {

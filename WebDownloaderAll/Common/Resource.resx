@@ -228,4 +228,14 @@
   <data name="NoAutoConfigData" xml:space="preserve">
     <value>No supported parsable auto config is provided</value>
   </data>
+  <data name="DispPercentage" xml:space="preserve">
+    <value>{0} %</value>
+  </data>
+  <data name="PicasaDescription" xml:space="preserve">
+    <value>[Picasa]
+description=</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed: </value>
+  </data>
 </root>

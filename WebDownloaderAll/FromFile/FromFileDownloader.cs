@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using WebDownloaderAll.Common;
 
 namespace WebDownloaderAll.FromFile
@@ -121,7 +119,7 @@ namespace WebDownloaderAll.FromFile
 
                 Console.Clear();
                 Console.Write(Resource.readingUrlFromwithItemsAt, i + 1, count, itemCount);
-                Console.Write("{0} %", 0);
+                Console.Write(Resource.DispPercentage, 0);
                 Console.Write(new string('\b', 1 + 2));
                 for (int k = 0;  k < itemCount; k++) //foreach (var fileInputData in fileInput.FileInputData)
                 {
@@ -129,7 +127,7 @@ namespace WebDownloaderAll.FromFile
                     var fileInputData = fileInput.FileInputData.ElementAt(k);
 
                     fileInputData.Name = fileInputData.Url.GetNameFromUrl();
-                    if (fileInput.File.IndexOf("Album") > 0)
+                    if (fileInput.File.IndexOf("Album", StringComparison.Ordinal) > 0)
                     {
                         if (!File.Exists(DirPath(FileType.Music) + "Album\\" + fileInputData.Name))
                             client.DownloadFile(fileInputData.Url, DirPath(FileType.Music) + "Album\\" + fileInputData.Name);
@@ -151,11 +149,11 @@ namespace WebDownloaderAll.FromFile
                         catch
                         {
                             //Console.WriteLine("\t" + Resource.error, fileInputData.Name);
-                            File.AppendAllText(@"D:\WDAError.txt", fileInputData.Url + "\r\n");
+                            File.AppendAllText(@"D:\WDAError.txt", fileInputData.Url + Environment.NewLine);
                         }
                     }
                     var percentage = ((k + 1) * 100) / itemCount;
-                    Console.Write("{0} %", percentage);
+                    Console.Write(Resource.DispPercentage, percentage);
                     Console.Write(new string('\b', percentage.ToString().Length + 2));
                 }
             }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-namespace WebDownloaderAll.Common
+﻿namespace WebDownloaderAll.Common
 {
     public interface IWebDownload
     {

@@ -102,6 +102,7 @@ namespace WebDownloaderAll.Music.Metadata
             get { return CurrentPageIndex < MaxPageIndex; }
         }
 
+        // ReSharper disable once UnusedMethodReturnValue.Local
         private string MoveNext() {
             if (CurrentPageIndex >= MaxPageIndex)
                 throw new SongMetadataException(Resource.collectioniterationComplete);

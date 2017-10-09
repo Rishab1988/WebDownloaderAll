@@ -131,7 +131,7 @@ namespace WebDownloaderAll.Common
             {
                 Value = 8,
                 Text = Resource.rtvision,
-                Download = new RTVision()
+                Download = new RtVision()
             };
             listDownloadOption.Add(downloadOption);
 
